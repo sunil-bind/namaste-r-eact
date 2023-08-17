@@ -1,3 +1,48 @@
-#heading{
-    color: red;
+.app-logo{
+    height: 100px;
+    width: 200px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    height: 100px;
+}
+
+.nav-menu>ul{
+    font-size: 25px;
+    display: flex;
+    list-style-type: none;
+}
+
+.nav-menu>ul>li {
+    padding: 10px;
+    margin: 10px;
+}
+
+.rest-card{
+    width: 270px;
+    background-color: lightcyan;
+    padding: 5px;
+    margin: 10px;
+}
+
+.rest-card:hover{
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.restaurant-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.search{
+    padding: 2px;
+}
+
+.res-logo{
+    height: 100px;
+    width: 100%;
 }
