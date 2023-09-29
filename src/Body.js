@@ -1,10 +1,14 @@
 import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Shimmer from "./Simmer";
+import{SWIGGY_API} from "../utils/constant"
+
+/**if api fails we can we use this mock data */
 // import { restArray } from "../utils/mockData";
 
 const Body = () => {
-  const [restList, setResList] = useState([]);
+  const [restList, setResList] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [filterRes, setFilter] = useState([]);
 
@@ -15,9 +19,7 @@ const Body = () => {
   }, []);
 
   const fetchResList = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.582320700000004&lng=77.38984900000001&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
+    const data = await fetch(SWIGGY_API );
 
     const json = await data.json();
     // console.log(
@@ -30,7 +32,7 @@ const Body = () => {
       json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
-  if (restList.length === 0) {
+  if (restList === null) {
     return <Shimmer />;
   }
   return (
@@ -58,7 +60,7 @@ const Body = () => {
       </div>
       <div className="restaurant-container">
         {filterRes.map((restObj) => (
-          <RestaurantCard key={restObj.info.id} restData={restObj} />
+          <Link key={restObj?.info?.id} to={"/restaurant/"+restObj?.info?.id}><RestaurantCard restData={restObj} /></Link>
         ))}
       </div>
     </div>
