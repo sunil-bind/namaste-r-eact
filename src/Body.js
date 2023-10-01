@@ -1,8 +1,8 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromated } from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Shimmer from "./Simmer";
-import{SWIGGY_API} from "../utils/constant"
+import { SWIGGY_API } from "../utils/constant";
 
 /**if api fails we can we use this mock data */
 // import { restArray } from "../utils/mockData";
@@ -18,8 +18,10 @@ const Body = () => {
     fetchResList();
   }, []);
 
+  const promatedRestro = withPromated(RestaurantCard);
+
   const fetchResList = async () => {
-    const data = await fetch(SWIGGY_API );
+    const data = await fetch(SWIGGY_API);
 
     const json = await data.json();
     // console.log(
@@ -37,9 +39,9 @@ const Body = () => {
   }
   return (
     <div className="body">
-      <div className="search-container">
+      <div className="m-4 p-4">
         <input
-          className="input"
+          className="border border-solid border-black rounded-lg"
           type="text"
           value={searchText}
           onChange={(s) => {
@@ -47,6 +49,7 @@ const Body = () => {
           }}
         />
         <button
+          className="px-4 py-2 bg-green-300 m-4 rounded-lg"
           onClick={() => {
             setFilter(
               restList.filter((list) =>
@@ -58,9 +61,15 @@ const Body = () => {
           search
         </button>
       </div>
-      <div className="restaurant-container">
+      <div className="flex flex-wrap rounded-md">
         {filterRes.map((restObj) => (
-          <Link key={restObj?.info?.id} to={"/restaurant/"+restObj?.info?.id}><RestaurantCard restData={restObj} /></Link>
+          <Link key={restObj?.info?.id} to={"/restaurant/" + restObj?.info?.id}>
+            {restObj?.info?.promoted ? (
+              <promatedRestro restData={restObj} />
+            ) : (
+              <RestaurantCard restData={restObj} />
+            )}
+          </Link>
         ))}
       </div>
     </div>
